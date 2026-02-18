@@ -1,3 +1,21 @@
+import { onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const loginLink = document.querySelector(".nav-icons a");
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    if (loginLink) {
+      loginLink.innerText = "Logout";
+      loginLink.href = "#";
+
+      loginLink.addEventListener("click", () => {
+        signOut(auth);
+        window.location.reload();
+      });
+    }
+  }
+});
 import { auth } from "./firebase.js";
 import { signInWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
