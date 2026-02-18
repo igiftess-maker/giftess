@@ -1,25 +1,11 @@
-import { onAuthStateChanged, signOut } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-const loginLink = document.querySelector(".nav-icons a");
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    if (loginLink) {
-      loginLink.innerText = "Logout";
-      loginLink.href = "#";
-
-      loginLink.addEventListener("click", () => {
-        signOut(auth);
-        window.location.reload();
-      });
-    }
-  }
-});
 import { auth } from "./firebase.js";
-import { signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { 
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+// LOGIN LOGIC
 const loginBtn = document.getElementById("loginBtn");
 
 if (loginBtn) {
@@ -32,7 +18,7 @@ if (loginBtn) {
       await signInWithEmailAndPassword(auth, email, password);
       message.style.color = "green";
       message.innerText = "Login successful!";
-      
+
       setTimeout(() => {
         window.location.href = "index.html";
       }, 1000);
@@ -40,6 +26,23 @@ if (loginBtn) {
     } catch (error) {
       message.style.color = "red";
       message.innerText = error.message;
+    }
+  });
+}
+
+// SESSION CHECK (Navbar Login → Logout)
+const loginLink = document.querySelector(".nav-icons a");
+
+if (loginLink) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loginLink.innerText = "Logout";
+      loginLink.href = "#";
+
+      loginLink.addEventListener("click", () => {
+        signOut(auth);
+        window.location.reload();
+      });
     }
   });
 }
