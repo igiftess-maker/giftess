@@ -36,3 +36,33 @@ if (productContainer) {
 
   loadProducts();
 }
+// ================= CART DRAWER TOGGLE =================
+
+const cartDrawer = document.getElementById("cartDrawer");
+const cartOverlay = document.getElementById("cartOverlay");
+const closeCart = document.getElementById("closeCart");
+
+// Select the Cart link in navbar
+const cartLink = document.querySelectorAll(".nav-icons a")[1];
+
+if (cartLink) {
+  cartLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    cartDrawer.classList.add("active");
+    cartOverlay.classList.add("active");
+  });
+}
+
+if (closeCart) {
+  closeCart.addEventListener("click", () => {
+    cartDrawer.classList.remove("active");
+    cartOverlay.classList.remove("active");
+  });
+}
+
+if (cartOverlay) {
+  cartOverlay.addEventListener("click", () => {
+    cartDrawer.classList.remove("active");
+    cartOverlay.classList.remove("active");
+  });
+}
