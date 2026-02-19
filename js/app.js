@@ -66,3 +66,45 @@ if (cartOverlay) {
     cartOverlay.classList.remove("active");
   });
 }
+// ================= CART FUNCTIONALITY =================
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const cartItemsContainer = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+
+function updateCartUI() {
+  if (!cartItemsContainer) return;
+
+  cartItemsContainer.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+
+    cartItemsContainer.innerHTML += `
+      <div class="cart-item">
+        <span>${item.name}</span>
+        <span>₹${item.price}</span>
+      </div>
+    `;
+  });
+
+  cartTotal.innerText = "Total: ₹" + total;
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("add-to-cart")) {
+    const name = e.target.dataset.name;
+    const price = parseInt(e.target.dataset.price);
+
+    cart.push({ name, price });
+    updateCartUI();
+
+    cartDrawer.classList.add("active");
+    cartOverlay.classList.add("active");
+  }
+});
+
+updateCartUI();
