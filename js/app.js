@@ -1,6 +1,8 @@
 import { db } from "./firebase.js";
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// ================= LOAD PRODUCTS =================
+
 const productContainer = document.getElementById("productContainer");
 
 if (productContainer) {
@@ -13,20 +15,20 @@ if (productContainer) {
         const product = doc.data();
 
         productContainer.innerHTML += `
-  <div class="product-card">
-    <img src="${product.image}" alt="${product.name}">
-    <div class="product-info">
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-      <div class="product-price">₹${product.price}</div>
-      <button class="primary-btn add-to-cart" 
-        data-name="${product.name}" 
-        data-price="${product.price}">
-        Add to Cart
-      </button>
-    </div>
-  </div>
-`;
+          <div class="product-card">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+              <h3>${product.name}</h3>
+              <p>${product.description}</p>
+              <div class="product-price">₹${product.price}</div>
+              <button class="primary-btn add-to-cart"
+                data-name="${product.name}"
+                data-price="${product.price}">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        `;
       });
 
     } catch (error) {
@@ -36,14 +38,17 @@ if (productContainer) {
 
   loadProducts();
 }
-// ================= CART DRAWER TOGGLE =================
+
+// ================= CART SYSTEM =================
 
 const cartDrawer = document.getElementById("cartDrawer");
 const cartOverlay = document.getElementById("cartOverlay");
 const closeCart = document.getElementById("closeCart");
-
-// Select the Cart link in navbar
+const cartItemsContainer = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
 const cartLink = document.querySelectorAll(".nav-icons a")[1];
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 if (cartLink) {
   cartLink.addEventListener("click", (e) => {
@@ -66,12 +71,6 @@ if (cartOverlay) {
     cartOverlay.classList.remove("active");
   });
 }
-// ================= CART FUNCTIONALITY =================
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-const cartItemsContainer = document.getElementById("cartItems");
-const cartTotal = document.getElementById("cartTotal");
 
 function updateCartUI() {
   if (!cartItemsContainer) return;
@@ -80,12 +79,18 @@ function updateCartUI() {
   let total = 0;
 
   cart.forEach((item, index) => {
-    total += item.price;
+    total += item.price * item.quantity;
 
     cartItemsContainer.innerHTML += `
       <div class="cart-item">
-        <span>${item.name}</span>
-        <span>₹${item.price}</span>
+        <div>
+          <strong>${item.name}</strong><br>
+          ₹${item.price} x ${item.quantity}
+        </div>
+        <div>
+          <button onclick="changeQty(${index}, -1)">−</button>
+          <button onclick="changeQty(${index}, 1)">+</button>
+        </div>
       </div>
     `;
   });
@@ -99,12 +104,28 @@ document.addEventListener("click", function (e) {
     const name = e.target.dataset.name;
     const price = parseInt(e.target.dataset.price);
 
-    cart.push({ name, price });
-    updateCartUI();
+    const existing = cart.find(item => item.name === name);
 
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ name, price, quantity: 1 });
+    }
+
+    updateCartUI();
     cartDrawer.classList.add("active");
     cartOverlay.classList.add("active");
   }
 });
+
+window.changeQty = function(index, change) {
+  cart[index].quantity += change;
+
+  if (cart[index].quantity <= 0) {
+    cart.splice(index, 1);
+  }
+
+  updateCartUI();
+};
 
 updateCartUI();
