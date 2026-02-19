@@ -1,11 +1,19 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
+
 import { 
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// LOGIN LOGIC
+import { 
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+
+// ================= LOGIN LOGIC =================
+
 const loginBtn = document.getElementById("loginBtn");
 
 if (loginBtn) {
@@ -30,7 +38,9 @@ if (loginBtn) {
   });
 }
 
-// SESSION CHECK (Navbar Login → Logout)
+
+// ================= SESSION CHECK =================
+
 const loginLink = document.querySelector(".nav-icons a");
 
 if (loginLink) {
@@ -43,6 +53,44 @@ if (loginLink) {
         signOut(auth);
         window.location.reload();
       });
+    }
+  });
+}
+
+
+// ================= LOAD PRODUCTS =================
+
+const productContainer = document.getElementById("productContainer");
+
+if (productContainer) {
+
+  const loadProducts = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "products"));
+      productContainer.innerHTML = "";
+
+      querySnapshot.forEach((doc) => {
+        const product = doc.data();
+
+        productContainer.innerHTML += `
+          <div class="product-card">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+              <h3>${product.name}</h3>
+              <p>${product.description}</p>
+              <div class="product-price">₹${product.price}</div>
+            </div>
+          </div>
+        `;
+      });
+
+    } catch (error) {
+      console.error("Error loading products:", error);
+    }
+  };
+
+  loadProducts();
+}
     }
   });
 }
