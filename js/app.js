@@ -1,12 +1,12 @@
 import { auth, db } from "./firebase.js";
 
-import { 
+import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-import { 
+import {
   collection,
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -63,7 +63,6 @@ if (loginLink) {
 const productContainer = document.getElementById("productContainer");
 
 if (productContainer) {
-
   const loadProducts = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "products"));
@@ -90,7 +89,4 @@ if (productContainer) {
   };
 
   loadProducts();
-}
-    }
-  });
 }
