@@ -6,8 +6,6 @@
   <title>Giftess</title>
 
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -16,31 +14,48 @@
   <header class="navbar">
     <div class="logo">Giftess</div>
     <div class="nav-icons">
-  <a href="login.html">Login</a>
-  <a href="#">Cart 🛒</a>
-</div>
+      <a href="login.html">Login</a>
+      <a href="#">Cart 🛒</a>
+    </div>
   </header>
-<!-- Cart Drawer -->
-<div id="cartDrawer" class="cart-drawer">
-  <div class="cart-header">
-    <h3>Your Cart</h3>
-    <span id="closeCart">✖</span>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Luxury Gift Hampers Crafted With Love</h1>
+      <p>Make every moment special with Giftess</p>
+      <button class="primary-btn">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products">
+    <h2>Our Hampers</h2>
+    <div id="productContainer" class="product-grid"></div>
+  </section>
+
+  <!-- Cart Drawer -->
+  <div id="cartDrawer" class="cart-drawer">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <span id="closeCart">✖</span>
+    </div>
+
+    <div id="cartItems" class="cart-items"></div>
+
+    <div class="cart-footer">
+      <div id="cartTotal">Total: ₹0</div>
+      <button class="primary-btn">Go to Checkout</button>
+    </div>
   </div>
 
-  <div id="cartItems" class="cart-items"></div>
+  <div id="cartOverlay" class="cart-overlay"></div>
 
-  <div class="cart-footer">
-    <div id="cartTotal">Total: ₹0</div>
-    <button class="primary-btn">Go to Checkout</button>
-  </div>
-</div>
-
-<div id="cartOverlay" class="cart-overlay"></div>
   <!-- Footer -->
   <footer class="footer">
     <p>© 2026 Giftess. All Rights Reserved.</p>
   </footer>
 
-<script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
