@@ -11,7 +11,25 @@ body {
 }
 
 /* Navbar */
+/* Gmail Style Avatar */
 
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 15px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
