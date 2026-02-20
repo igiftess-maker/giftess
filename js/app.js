@@ -123,13 +123,14 @@ document.addEventListener("click", function (e) {
   if (e.target.classList.contains("add-to-cart")) {
     const name = e.target.dataset.name;
     const price = parseInt(e.target.dataset.price);
+    const deliveryCharge = parseInt(e.target.dataset.delivery || 0);
 
     const existing = cart.find(item => item.name === name);
 
     if (existing) {
       existing.quantity += 1;
     } else {
-      cart.push({ name, price, quantity: 1 });
+      cart.push({ name, price, quantity: 1, deliveryCharge });
     }
 
     updateCartUI();
@@ -137,7 +138,6 @@ document.addEventListener("click", function (e) {
     cartOverlay.classList.add("active");
   }
 });
-
 window.changeQty = function(index, change) {
   cart[index].quantity += change;
 
