@@ -11,7 +11,9 @@ import {
 
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 
@@ -335,6 +337,39 @@ if (loginBtn) {
     } catch (error) {
       message.innerText = error.message;
       message.style.color = "red";
+    }
+  });
+}
+// ================= AUTH SESSION CHECK =================
+
+const loginLink = document.getElementById("loginLink");
+const userProfile = document.getElementById("userProfile");
+const userAvatar = document.getElementById("userAvatar");
+
+if (loginLink && userAvatar && userProfile) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const firstLetter = user.email.charAt(0).toUpperCase();
+
+      const colors = ["#EA4335", "#FBBC05", "#34A853", "#4285F4", "#FF6D01"];
+      const colorIndex = user.email.length % colors.length;
+
+      userAvatar.textContent = firstLetter;
+      userAvatar.style.backgroundColor = colors[colorIndex];
+
+      userProfile.style.display = "flex";
+
+      loginLink.textContent = "Logout";
+      loginLink.href = "#";
+
+      loginLink.onclick = async () => {
+        await signOut(auth);
+        window.location.href = "index.html";
+      };
+    } else {
+      if (userProfile) userProfile.style.display = "none";
+      loginLink.textContent = "Login";
+      loginLink.href = "login.html";
     }
   });
 }
