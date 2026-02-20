@@ -27,11 +27,11 @@ if (productContainer || addonContainer) {
                 <p>${product.description}</p>
                 <div class="product-price">₹${product.price}</div>
                 <button class="primary-btn add-to-cart"
-  data-name="${product.name}"
-  data-price="${product.price}"
-  data-delivery="${product.deliveryCharge || 0}">
-  Add
-</button>
+                  data-name="${product.name}"
+                  data-price="${product.price}"
+                  data-delivery="${product.deliveryCharge || 0}">
+                  Add to Cart
+                </button>
               </div>
             </div>
           `;
@@ -43,11 +43,11 @@ if (productContainer || addonContainer) {
             <div class="cart-item">
               <span>${product.name} - ₹${product.price}</span>
               <button class="primary-btn add-to-cart"
-  data-name="${product.name}"
-  data-price="${product.price}"
-  data-delivery="${product.deliveryCharge || 0}">
-  Add to Cart
-</button>
+                data-name="${product.name}"
+                data-price="${product.price}"
+                data-delivery="${product.deliveryCharge || 0}">
+                Add
+              </button>
             </div>
           `;
         }
@@ -140,6 +140,7 @@ document.addEventListener("click", function (e) {
     cartOverlay.classList.add("active");
   }
 });
+
 window.changeQty = function(index, change) {
   cart[index].quantity += change;
 
@@ -151,3 +152,42 @@ window.changeQty = function(index, change) {
 };
 
 updateCartUI();
+
+// ================= CHECKOUT PAGE =================
+
+const checkoutItems = document.getElementById("checkoutItems");
+
+if (checkoutItems) {
+  const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let subtotal = 0;
+  let deliveryCharge = 0;
+
+  checkoutItems.innerHTML = "";
+
+  cartData.forEach(item => {
+    subtotal += item.price * item.quantity;
+
+    deliveryCharge = Math.max(deliveryCharge, item.deliveryCharge || 0);
+
+    checkoutItems.innerHTML += `
+      <div class="cart-item">
+        <span>${item.name} x ${item.quantity}</span>
+        <span>₹${item.price * item.quantity}</span>
+      </div>
+    `;
+  });
+
+  const total = subtotal + deliveryCharge;
+
+  document.getElementById("checkoutSubtotal").innerText =
+    "Subtotal: ₹" + subtotal;
+
+  if (deliveryCharge > 0) {
+    document.getElementById("checkoutTotal").innerText =
+      "Total (incl. ₹" + deliveryCharge + " delivery): ₹" + total;
+  } else {
+    document.getElementById("checkoutTotal").innerText =
+      "Total: ₹" + total + " (Free Shipping)";
+  }
+}
