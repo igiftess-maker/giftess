@@ -71,7 +71,7 @@ const cartOverlay = document.getElementById("cartOverlay");
 const closeCart = document.getElementById("closeCart");
 const cartItemsContainer = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
-const cartLink = document.querySelectorAll(".nav-icons a")[1];
+const cartLink = document.getElementById("cartLink");
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
