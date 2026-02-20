@@ -15,8 +15,7 @@ const ordersContainer = document.getElementById("ordersContainer");
 
 // ================= CHECK LOGIN =================
 
-onAuthStateChanged(auth, async (user) => {
-
+onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
     return;
@@ -26,14 +25,14 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // ================= LOAD USER ORDERS =================
-console.log("Loading orders for:", email);
-async function loadUserOrders(email) {
+
+async function loadUserOrders(userEmail) {
 
   const q = query(
     collection(db, "orders"),
-    where("email", "==", email)
+    where("email", "==", userEmail)
   );
-console.log("Query size:", querySnapshot.size);
+
   const querySnapshot = await getDocs(q);
 
   ordersContainer.innerHTML = "";
