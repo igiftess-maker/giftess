@@ -381,10 +381,10 @@ if (loginLink && userProfile) {
   });
 
   // Toggle dropdown
-  userAvatar.addEventListener("click", () => {
-    userDropdown.style.display =
-      userDropdown.style.display === "flex" ? "none" : "flex";
-  });
+  userAvatar.addEventListener("click", (e) => {
+  e.stopPropagation();
+  userDropdown.classList.toggle("show");
+});
 
   // Logout
   if (logoutLink) {
