@@ -16,7 +16,6 @@ body {
 .user-profile {
   display: flex;
   align-items: center;
-  margin-right: 10px;
 }
 
 .user-avatar {
