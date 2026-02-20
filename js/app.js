@@ -313,8 +313,7 @@ if (placeOrderBtn) {
 }
 // ================= LOGIN PAGE =================
 
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { auth } from "./firebase.js";
+
 
 const loginBtn = document.getElementById("loginBtn");
 
