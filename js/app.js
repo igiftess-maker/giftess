@@ -28,7 +28,8 @@ if (productContainer || addonContainer) {
                 <div class="product-price">₹${product.price}</div>
                 <button class="primary-btn add-to-cart"
                   data-name="${product.name}"
-                  data-price="${product.price}">
+data-price="${product.price}"
+data-delivery="${product.deliveryCharge || 0}"
                   Add to Cart
                 </button>
               </div>
