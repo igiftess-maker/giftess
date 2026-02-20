@@ -1,3 +1,6 @@
+import { addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth } from "./firebase.js";
 import { db } from "./firebase.js";
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -203,4 +206,97 @@ if (checkoutItems) {
     document.getElementById("checkoutTotal").innerText =
       "Total: ₹" + total + " (Free Shipping)";
   }
+}
+// ================= PLACE ORDER =================
+
+const placeOrderBtn = document.getElementById("placeOrderBtn");
+
+if (placeOrderBtn) {
+  placeOrderBtn.addEventListener("click", async () => {
+
+    const name = document.getElementById("custName").value.trim();
+    const email = document.getElementById("custEmail").value.trim();
+    const password = document.getElementById("custPassword").value.trim();
+    const phone = document.getElementById("custPhone").value.trim();
+    const address = document.getElementById("custAddress").value.trim();
+    const pin = document.getElementById("custPin").value.trim();
+
+    if (!name || !email || !password || !phone || !address || !pin) {
+      alert("Please fill all details.");
+      return;
+    }
+
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cartData.length === 0) {
+      alert("Cart is empty.");
+      return;
+    }
+
+    let subtotal = 0;
+    let deliveryCharge = 0;
+
+    cartData.forEach(item => {
+      subtotal += item.price * item.quantity;
+      deliveryCharge = Math.max(deliveryCharge, item.deliveryCharge || 0);
+    });
+
+    const total = subtotal + deliveryCharge;
+
+    // Generate SKU
+    const today = new Date();
+    const datePart =
+      today.getFullYear().toString() +
+      String(today.getMonth() + 1).padStart(2, '0') +
+      String(today.getDate()).padStart(2, '0');
+
+    const randomPart = Math.floor(1000 + Math.random() * 9000);
+
+    const orderId = `GF-${datePart}-${randomPart}`;
+
+    try {
+      // Create account
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      // Save order in Firestore
+      await addDoc(collection(db, "orders"), {
+        orderId,
+        name,
+        email,
+        phone,
+        address,
+        pin,
+        items: cartData,
+        subtotal,
+        deliveryCharge,
+        total,
+        status: "Pending",
+        createdAt: new Date()
+      });
+
+      localStorage.removeItem("cart");
+
+      // Prepare WhatsApp message
+      let message = `Order ID: ${orderId}%0A`;
+      message += `Name: ${name}%0A`;
+      message += `Phone: ${phone}%0A`;
+      message += `Address: ${address}, ${pin}%0A`;
+      message += `Items:%0A`;
+
+      cartData.forEach(item => {
+        message += `- ${item.name} x ${item.quantity}%0A`;
+      });
+
+      message += `Subtotal: ₹${subtotal}%0A`;
+      message += `Delivery: ₹${deliveryCharge}%0A`;
+      message += `Total: ₹${total}`;
+
+      window.location.href =
+        `https://wa.me/916002698296?text=${message}`;
+
+    } catch (error) {
+      alert(error.message);
+    }
+
+  });
 }
