@@ -39,11 +39,11 @@ body {
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: #ff2e88;
+  text-decoration: none;
 }
-
 .nav-icons {
   display: flex;
   align-items: center;
