@@ -381,10 +381,12 @@ if (loginLink && userProfile) {
   });
 
   // Toggle dropdown
-  userAvatar.addEventListener("click", (e) => {
+userAvatar.addEventListener("click", (e) => {
   e.stopPropagation();
   userDropdown.classList.toggle("show");
 });
+
+// Close dropdown when clicking outside
 document.addEventListener("click", (e) => {
   if (!userProfile.contains(e.target)) {
     userDropdown.classList.remove("show");
