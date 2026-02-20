@@ -44,7 +44,8 @@ data-delivery="${product.deliveryCharge || 0}"
               <span>${product.name} - ₹${product.price}</span>
               <button class="primary-btn add-to-cart"
                 data-name="${product.name}"
-                data-price="${product.price}">
+                data-price="${product.price}"
+                 data-delivery="${product.deliveryCharge || 0}"
                 Add
               </button>
             </div>
