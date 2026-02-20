@@ -300,3 +300,31 @@ if (placeOrderBtn) {
 
   });
 }
+// ================= LOGIN PAGE =================
+
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth } from "./firebase.js";
+
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", async () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const message = document.getElementById("authMessage");
+
+    if (!email || !password) {
+      message.innerText = "Please fill all fields.";
+      message.style.color = "red";
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = "index.html";
+    } catch (error) {
+      message.innerText = error.message;
+      message.style.color = "red";
+    }
+  });
+}
