@@ -153,7 +153,20 @@ window.changeQty = function(index, change) {
 
 updateCartUI();
 
-// ================= CHECKOUT PAGE =================
+// ================= GO TO CHECKOUT =================
+
+const goCheckoutBtn = document.getElementById("goCheckoutBtn");
+
+if (goCheckoutBtn) {
+  goCheckoutBtn.addEventListener("click", () => {
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    window.location.href = "checkout.html";
+  });
+}
 
 const checkoutItems = document.getElementById("checkoutItems");
 
