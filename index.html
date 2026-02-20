@@ -13,14 +13,23 @@
   <!-- Navigation -->
   <header class="navbar">
   <div class="logo">Giftess</div>
+    
+<div class="nav-icons">
 
-  <div class="nav-icons">
-    <div id="userProfile" class="user-profile" style="display:none;">
-      <div id="userAvatar" class="user-avatar"></div>
+  <div id="userProfile" class="user-profile" style="display:none;">
+    <div id="userAvatar" class="user-avatar"></div>
+
+    <div id="userDropdown" class="user-dropdown" style="display:none;">
+      <a href="orders.html">My Orders</a>
+      <a id="adminLink" href="admin.html" style="display:none;">Admin Panel</a>
+      <a href="#" id="logoutLink">Logout</a>
     </div>
-    <a id="loginLink" href="login.html">Login</a>
-    <a id="cartLink" href="#">Cart 🛒</a>
   </div>
+
+  <a id="loginLink" href="login.html">Login</a>
+  <a id="cartLink" href="#">Cart 🛒</a>
+
+</div>
 </header>
   <!-- Hero Section -->
   <section class="hero">
