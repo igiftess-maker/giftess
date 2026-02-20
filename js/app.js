@@ -345,12 +345,16 @@ if (loginBtn) {
 const loginLink = document.getElementById("loginLink");
 const userProfile = document.getElementById("userProfile");
 const userAvatar = document.getElementById("userAvatar");
+const userDropdown = document.getElementById("userDropdown");
+const adminLink = document.getElementById("adminLink");
+const logoutLink = document.getElementById("logoutLink");
 
-if (loginLink && userAvatar && userProfile) {
-  onAuthStateChanged(auth, (user) => {
+if (loginLink && userProfile) {
+
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
+      // Show avatar
       const firstLetter = user.email.charAt(0).toUpperCase();
-
       const colors = ["#EA4335", "#FBBC05", "#34A853", "#4285F4", "#FF6D01"];
       const colorIndex = user.email.length % colors.length;
 
@@ -358,18 +362,42 @@ if (loginLink && userAvatar && userProfile) {
       userAvatar.style.backgroundColor = colors[colorIndex];
 
       userProfile.style.display = "flex";
+      loginLink.style.display = "none";
 
-      loginLink.textContent = "Logout";
-      loginLink.href = "#";
+      // Check if admin
+      const adminRef = doc(db, "admins", user.email);
+      const adminSnap = await getDoc(adminRef);
 
-      loginLink.onclick = async () => {
-        await signOut(auth);
-        window.location.href = "index.html";
-      };
+      if (adminSnap.exists()) {
+        adminLink.style.display = "block";
+      } else {
+        adminLink.style.display = "none";
+      }
+
     } else {
-      if (userProfile) userProfile.style.display = "none";
-      loginLink.textContent = "Login";
-      loginLink.href = "login.html";
+      userProfile.style.display = "none";
+      loginLink.style.display = "block";
+    }
+  });
+
+  // Toggle dropdown
+  userAvatar.addEventListener("click", () => {
+    userDropdown.style.display =
+      userDropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  // Logout
+  if (logoutLink) {
+    logoutLink.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    });
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!userProfile.contains(e.target)) {
+      userDropdown.style.display = "none";
     }
   });
 }
