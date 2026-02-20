@@ -385,7 +385,11 @@ if (loginLink && userProfile) {
   e.stopPropagation();
   userDropdown.classList.toggle("show");
 });
-
+document.addEventListener("click", (e) => {
+  if (!userProfile.contains(e.target)) {
+    userDropdown.classList.remove("show");
+  }
+});
   // Logout
   if (logoutLink) {
     logoutLink.addEventListener("click", async () => {
