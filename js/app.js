@@ -4,31 +4,51 @@ import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/
 // ================= LOAD PRODUCTS =================
 
 const productContainer = document.getElementById("productContainer");
+const addonContainer = document.getElementById("addonProducts");
 
-if (productContainer) {
+if (productContainer || addonContainer) {
   const loadProducts = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "products"));
-      productContainer.innerHTML = "";
+
+      if (productContainer) productContainer.innerHTML = "";
+      if (addonContainer) addonContainer.innerHTML = "";
 
       querySnapshot.forEach((doc) => {
         const product = doc.data();
 
-        productContainer.innerHTML += `
-          <div class="product-card">
-            <img src="${product.image}" alt="${product.name}">
-            <div class="product-info">
-              <h3>${product.name}</h3>
-              <p>${product.description}</p>
-              <div class="product-price">₹${product.price}</div>
+        // NORMAL PRODUCTS
+        if (!product.isAddon && productContainer) {
+          productContainer.innerHTML += `
+            <div class="product-card">
+              <img src="${product.image}" alt="${product.name}">
+              <div class="product-info">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div class="product-price">₹${product.price}</div>
+                <button class="primary-btn add-to-cart"
+                  data-name="${product.name}"
+                  data-price="${product.price}">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          `;
+        }
+
+        // ADDON PRODUCTS
+        if (product.isAddon && addonContainer) {
+          addonContainer.innerHTML += `
+            <div class="cart-item">
+              <span>${product.name} - ₹${product.price}</span>
               <button class="primary-btn add-to-cart"
                 data-name="${product.name}"
                 data-price="${product.price}">
-                Add to Cart
+                Add
               </button>
             </div>
-          </div>
-        `;
+          `;
+        }
       });
 
     } catch (error) {
