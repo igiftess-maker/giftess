@@ -360,15 +360,17 @@ body {
   display: flex;
   flex-direction: column;
   padding: 8px 0;
+
   transform: scale(0.95);
   opacity: 0;
+  pointer-events: none;
   transition: all 0.2s ease;
 }
 
 .user-dropdown.show {
   transform: scale(1);
   opacity: 1;
-}
+  pointer-events: auto;
 }
 .user-dropdown a {
   padding: 10px 15px;
