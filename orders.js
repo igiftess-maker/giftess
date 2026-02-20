@@ -26,14 +26,14 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // ================= LOAD USER ORDERS =================
-
+console.log("Loading orders for:", email);
 async function loadUserOrders(email) {
 
   const q = query(
     collection(db, "orders"),
     where("email", "==", email)
   );
-
+console.log("Query size:", querySnapshot.size);
   const querySnapshot = await getDocs(q);
 
   ordersContainer.innerHTML = "";
