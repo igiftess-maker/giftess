@@ -1,3 +1,50 @@
+// ===============================
+// Firebase SDK Setup
+// ===============================
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+import { 
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import { 
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  addDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+
+// 🔑 Your Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyCsZJviWYXZ-1Buclavnkk6P3gU43fCmtM",
+  authDomain: "giftess-1119.firebaseapp.com",
+  projectId: "giftess-1119",
+  storageBucket: "giftess-1119.firebasestorage.app",
+  messagingSenderId: "455652729219",
+  appId: "1:455652729219:web:ce4cc662b1955a105796b6",
+  measurementId: "G-FSBCLCJBJ6"
+};
+
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
 // =========================================
 //  DATA
 // =========================================
