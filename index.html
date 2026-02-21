@@ -2,137 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giftess</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Navigation -->
-  <header class="navbar">
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
   <a href="index.html" class="logo">Giftess</a>
-    
-<div class="nav-icons">
 
-  <div id="userProfile" class="user-profile" style="display:none;">
-    <div id="userAvatar" class="user-avatar"></div>
+  <div class="nav-icons">
 
-    <div id="userDropdown" class="user-dropdown">
-      <a href="orders.html">My Orders</a>
-      <a id="adminLink" href="admin.html" style="display:none;">Admin Panel</a>
-      <a href="#" id="logoutLink">Logout</a>
+    <div id="userProfile" class="user-profile" style="display:none;">
+      <div id="userAvatar" class="user-avatar"></div>
+
+      <div id="userDropdown" class="user-dropdown">
+        <a href="orders.html">My Orders</a>
+        <a id="adminLink" href="admin.html" style="display:none;">Admin Panel</a>
+        <a href="#" id="logoutLink">Logout</a>
+      </div>
     </div>
+
+    <a id="loginLink" href="login.html">Login</a>
+    <a id="cartLink" href="#">Cart 🛒</a>
+
   </div>
-
-  <a id="loginLink" href="login.html">Login</a>
-  <a id="cartLink" href="#">Cart 🛒</a>
-
-</div>
 </header>
-  
- 
-  
+
+<!-- ================= HERO ================= -->
 
 <section class="hero">
   <div class="hero-container">
 
     <div class="hero-text">
       <h1>Premium Customised Gift Hampers</h1>
-      <p>Crafted with love. Delivered with care.</p>
+      <p>Crafted with love. Delivered with elegance.</p>
 
       <div class="hero-buttons">
         <button class="primary-btn">Shop Now</button>
-        <button class="secondary-btn">Create Your Own Hamper</button>
+        <button class="secondary-btn">Create Your Own</button>
       </div>
     </div>
 
     <div class="hero-image">
-      <img src="https://media.istockphoto.com/id/526310177/photo/deluxe-christmas-holiday-gift-basket-on-white-background.jpg?s=1024x1024&w=is&k=20&c=RrWpstFPXaL5yDeDDICLQbKbRAZymEBL0ecNh3qH7bE=" alt="Luxury Gift Hamper">
+      <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=900&auto=format&fit=crop" alt="Luxury Gift Hamper">
     </div>
 
   </div>
 </section>
 
+<!-- ================= CATEGORIES ================= -->
 
-
-  <!-- Categories Section -->
-
-  
 <section class="categories-section">
   <div class="categories-grid">
 
     <div class="category-card">
-      <img src="images/birthday.jpg">
+      <img src="https://images.unsplash.com/photo-1599785209796-3e4b5a8e2a5e?q=80&w=600&auto=format&fit=crop">
       <p>Birthday Hampers</p>
     </div>
 
     <div class="category-card">
-      <img src="images/anniversary.jpg">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop">
       <p>Anniversary Gifts</p>
     </div>
 
     <div class="category-card">
-      <img src="images/valentine.jpg">
+      <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop">
       <p>Valentine Specials</p>
     </div>
 
     <div class="category-card">
-      <img src="images/her.jpg">
+      <img src="https://images.unsplash.com/photo-1520975922323-0c38bba3f89f?q=80&w=600&auto=format&fit=crop">
       <p>Gifts for Her</p>
     </div>
 
     <div class="category-card">
-      <img src="images/him.jpg">
+      <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?q=80&w=600&auto=format&fit=crop">
       <p>Gifts for Him</p>
     </div>
 
     <div class="category-card">
-      <img src="images/custom.jpg">
-      <p>Build a Custom Hamper</p>
+      <img src="https://images.unsplash.com/photo-1607083206173-9fbc6e43c3a4?q=80&w=600&auto=format&fit=crop">
+      <p>Custom Hampers</p>
     </div>
 
   </div>
 </section>
-  
 
+<!-- ================= PRODUCTS ================= -->
 
-  <!-- Products Section -->
-  <section class="products">
-    <h2>Our Hampers</h2>
-    <div id="productContainer" class="product-grid"></div>
-  </section>
+<section class="products">
+  <h2>Best Sellers</h2>
+  <div id="productContainer" class="product-grid"></div>
+</section>
 
-  <!-- Cart Drawer -->
-  <div id="cartDrawer" class="cart-drawer">
-    <div class="cart-header">
-      <h3>Your Cart</h3>
-      <span id="closeCart">✖</span>
-    </div>
+<!-- ================= CART DRAWER ================= -->
 
-    <div id="cartItems" class="cart-items"></div>
-    <!-- Addon Suggestions -->
-<div id="addonSection">
-  <h4 style="padding:15px 15px 0;">Add Something Extra 💝</h4>
-  <div id="addonProducts" class="cart-items"></div>
-</div>
+<div id="cartDrawer" class="cart-drawer">
 
-    <div class="cart-footer">
-      <div id="cartTotal">Total: ₹0</div>
-      <button id="goCheckoutBtn" class="primary-btn">
-  Go to Checkout
-</button>
-    </div>
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <span id="closeCart">✖</span>
   </div>
 
-  <div id="cartOverlay" class="cart-overlay"></div>
+  <div id="cartItems" class="cart-items"></div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2026 Giftess. All Rights Reserved.</p>
-  </footer>
+  <div id="addonSection">
+    <h4 style="padding:15px 15px 0;">Add Something Extra 💝</h4>
+    <div id="addonProducts" class="cart-items"></div>
+  </div>
 
-  <script type="module" src="js/app.js"></script>
+  <div class="cart-footer">
+    <div id="cartTotal">Total: ₹0</div>
+    <button id="goCheckoutBtn" class="primary-btn">
+      Go to Checkout
+    </button>
+  </div>
+
+</div>
+
+<div id="cartOverlay" class="cart-overlay"></div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+  <p>© 2026 Giftess. All Rights Reserved.</p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
