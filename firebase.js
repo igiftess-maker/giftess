@@ -1,6 +1,18 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { 
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import { 
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsZJviWYXZ-1Buclavnkk6P3gU43fCmtM",
@@ -14,7 +26,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-window.auth = getAuth(app);
-window.db = getFirestore(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.auth = auth;
+window.db = db;
+window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+window.onAuthStateChanged = onAuthStateChanged;
+window.signOutUser = signOut;
 
 console.log("Firebase Connected");
