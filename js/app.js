@@ -314,3 +314,23 @@ if (loginLink && userProfile) {
     });
   }
 }
+// ================= PRICE FILTER =================
+
+document.querySelectorAll(".price-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const value = btn.dataset.price;
+    const products = document.querySelectorAll(".product-card");
+
+    products.forEach(product => {
+      const price = parseInt(product.dataset.price);
+
+      if (value === "all") {
+        product.style.display = "block";
+      } else if (value === "above") {
+        product.style.display = price > 2099 ? "block" : "none";
+      } else {
+        product.style.display = price <= parseInt(value) ? "block" : "none";
+      }
+    });
+  });
+});
