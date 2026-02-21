@@ -576,3 +576,22 @@ document.getElementById('builderModal').addEventListener('click', function(e) {
 renderGrid(products, 'shopGrid');
 renderGrid(products, 'filtGrid');
 renderTestimonials();
+
+
+
+
+async function doLogin() {
+
+  const email = document.getElementById("aUser").value;
+  const password = document.getElementById("aPass").value;
+
+  try {
+    await window.auth.signInWithEmailAndPassword
+      ? window.auth.signInWithEmailAndPassword(email, password)
+      : await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js")
+          .then(mod => mod.signInWithEmailAndPassword(window.auth, email, password));
+
+  } catch (error) {
+    alert("Login failed: " + error.message);
+  }
+}
