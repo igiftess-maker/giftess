@@ -465,3 +465,24 @@ body {
     justify-content: center;
   }
 }
+
+/* Soft Floating Animation */
+
+@keyframes softFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  animation: softFloat 6s ease-in-out infinite;
+}
