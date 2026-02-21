@@ -1,3 +1,5 @@
+// ================= IMPORTS =================
+
 import { auth, db } from "./firebase.js";
 
 import {
@@ -5,8 +7,7 @@ import {
   getDocs,
   addDoc,
   doc,
-  getDoc,
-  updateDoc
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import {
@@ -17,67 +18,130 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 
-// ================= LOAD PRODUCTS =================
+// =====================================================
+// ================= LOAD CATEGORIES ===================
+// =====================================================
+
+const categoriesContainer = document.getElementById("categoriesContainer");
+
+if (categoriesContainer) {
+  loadCategories();
+}
+
+async function loadCategories() {
+  try {
+    const snapshot = await getDocs(collection(db, "categories"));
+    categoriesContainer.innerHTML = "";
+
+    snapshot.forEach(docSnap => {
+      const category = docSnap.data();
+
+      categoriesContainer.innerHTML += `
+        <div class="category-card" data-category="${category.name}">
+          <img src="${category.image}" alt="${category.name}">
+          <p>${category.name}</p>
+        </div>
+      `;
+    });
+
+  } catch (error) {
+    console.error("Error loading categories:", error);
+  }
+}
+
+
+// =====================================================
+// ================= LOAD PRODUCTS =====================
+// =====================================================
 
 const productContainer = document.getElementById("productContainer");
 const addonContainer = document.getElementById("addonProducts");
 
 if (productContainer || addonContainer) {
-  const loadProducts = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "products"));
+  loadProducts();
+}
 
-      if (productContainer) productContainer.innerHTML = "";
-      if (addonContainer) addonContainer.innerHTML = "";
+async function loadProducts() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "products"));
 
-      querySnapshot.forEach((doc) => {
-        const product = doc.data();
+    if (productContainer) productContainer.innerHTML = "";
+    if (addonContainer) addonContainer.innerHTML = "";
 
-        // NORMAL PRODUCTS
-        if (!product.isAddon && productContainer) {
-          productContainer.innerHTML += `
-            <div class="product-card">
-              <img src="${product.image}" alt="${product.name}">
-              <div class="product-info">
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <div class="product-price">₹${product.price}</div>
-                <button class="primary-btn add-to-cart"
-                  data-name="${product.name}"
-                  data-price="${product.price}"
-                  data-delivery="${product.deliveryCharge || 0}">
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          `;
-        }
+    querySnapshot.forEach((docSnap) => {
+      const product = docSnap.data();
 
-        // ADDON PRODUCTS
-        if (product.isAddon && addonContainer) {
-          addonContainer.innerHTML += `
-            <div class="cart-item">
-              <span>${product.name} - ₹${product.price}</span>
+      // NORMAL PRODUCTS
+      if (!product.isAddon && productContainer) {
+        productContainer.innerHTML += `
+          <div class="product-card" data-category="${product.category || ""}">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+              <h3>${product.name}</h3>
+              <p>${product.description || ""}</p>
+              <div class="product-price">₹${product.price}</div>
               <button class="primary-btn add-to-cart"
                 data-name="${product.name}"
                 data-price="${product.price}"
                 data-delivery="${product.deliveryCharge || 0}">
-                Add
+                Add to Cart
               </button>
             </div>
-          `;
-        }
-      });
+          </div>
+        `;
+      }
 
-    } catch (error) {
-      console.error("Error loading products:", error);
-    }
-  };
+      // ADDON PRODUCTS
+      if (product.isAddon && addonContainer) {
+        addonContainer.innerHTML += `
+          <div class="cart-item">
+            <span>${product.name} - ₹${product.price}</span>
+            <button class="primary-btn add-to-cart"
+              data-name="${product.name}"
+              data-price="${product.price}"
+              data-delivery="${product.deliveryCharge || 0}">
+              Add
+            </button>
+          </div>
+        `;
+      }
+    });
 
-  loadProducts();
+  } catch (error) {
+    console.error("Error loading products:", error);
+  }
 }
 
-// ================= CART SYSTEM =================
+
+// =====================================================
+// ================= CATEGORY FILTER ===================
+// =====================================================
+
+document.addEventListener("click", function (e) {
+  if (e.target.closest(".category-card")) {
+    const card = e.target.closest(".category-card");
+    const selectedCategory = card.dataset.category;
+
+    filterProductsByCategory(selectedCategory);
+  }
+});
+
+function filterProductsByCategory(categoryName) {
+  const allProducts = document.querySelectorAll(".product-card");
+
+  allProducts.forEach(card => {
+    if (card.dataset.category === categoryName) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+
+// =====================================================
+// ================= CART SYSTEM =======================
+// =====================================================
 
 const cartDrawer = document.getElementById("cartDrawer");
 const cartOverlay = document.getElementById("cartOverlay");
@@ -133,7 +197,7 @@ function updateCartUI() {
     `;
   });
 
-  cartTotal.innerText = "Total: ₹" + total;
+  if (cartTotal) cartTotal.innerText = "Total: ₹" + total;
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
@@ -169,7 +233,10 @@ window.changeQty = function(index, change) {
 
 updateCartUI();
 
-// ================= GO TO CHECKOUT =================
+
+// =====================================================
+// ================= GO TO CHECKOUT ====================
+// =====================================================
 
 const goCheckoutBtn = document.getElementById("goCheckoutBtn");
 
@@ -179,168 +246,14 @@ if (goCheckoutBtn) {
       alert("Your cart is empty!");
       return;
     }
-
     window.location.href = "checkout.html";
   });
 }
 
-const checkoutItems = document.getElementById("checkoutItems");
 
-if (checkoutItems) {
-  const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-
-  let subtotal = 0;
-  let deliveryCharge = 0;
-
-  checkoutItems.innerHTML = "";
-
-  cartData.forEach(item => {
-    subtotal += item.price * item.quantity;
-
-    deliveryCharge = Math.max(deliveryCharge, item.deliveryCharge || 0);
-
-    checkoutItems.innerHTML += `
-      <div class="cart-item">
-        <span>${item.name} x ${item.quantity}</span>
-        <span>₹${item.price * item.quantity}</span>
-      </div>
-    `;
-  });
-
-  const total = subtotal + deliveryCharge;
-
-  document.getElementById("checkoutSubtotal").innerText =
-    "Subtotal: ₹" + subtotal;
-
-  if (deliveryCharge > 0) {
-    document.getElementById("checkoutTotal").innerText =
-      "Total (incl. ₹" + deliveryCharge + " delivery): ₹" + total;
-  } else {
-    document.getElementById("checkoutTotal").innerText =
-      "Total: ₹" + total + " (Free Shipping)";
-  }
-}
-// ================= PLACE ORDER =================
-
-const placeOrderBtn = document.getElementById("placeOrderBtn");
-
-if (placeOrderBtn) {
-  placeOrderBtn.addEventListener("click", async () => {
-
-    const name = document.getElementById("custName").value.trim();
-    const email = document.getElementById("custEmail").value.trim();
-    const password = document.getElementById("custPassword").value.trim();
-    const phone = document.getElementById("custPhone").value.trim();
-    const address = document.getElementById("custAddress").value.trim();
-    const pin = document.getElementById("custPin").value.trim();
-
-    if (!name || !email || !password || !phone || !address || !pin) {
-      alert("Please fill all details.");
-      return;
-    }
-
-    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-
-    if (cartData.length === 0) {
-      alert("Cart is empty.");
-      return;
-    }
-
-    let subtotal = 0;
-    let deliveryCharge = 0;
-
-    cartData.forEach(item => {
-      subtotal += item.price * item.quantity;
-      deliveryCharge = Math.max(deliveryCharge, item.deliveryCharge || 0);
-    });
-
-    const total = subtotal + deliveryCharge;
-
-    // Generate SKU
-    const today = new Date();
-    const datePart =
-      today.getFullYear().toString() +
-      String(today.getMonth() + 1).padStart(2, '0') +
-      String(today.getDate()).padStart(2, '0');
-
-    const randomPart = Math.floor(1000 + Math.random() * 9000);
-
-    const orderId = `GF-${datePart}-${randomPart}`;
-
-    try {
-      // Create account
-      await createUserWithEmailAndPassword(auth, email, password);
-
-      // Save order in Firestore
-      await addDoc(collection(db, "orders"), {
-        orderId,
-        name,
-        email,
-        phone,
-        address,
-        pin,
-        items: cartData,
-        subtotal,
-        deliveryCharge,
-        total,
-        status: "Pending",
-        createdAt: new Date()
-      });
-
-      localStorage.removeItem("cart");
-
-      // Prepare WhatsApp message
-      let message = `Order ID: ${orderId}%0A`;
-      message += `Name: ${name}%0A`;
-      message += `Phone: ${phone}%0A`;
-      message += `Address: ${address}, ${pin}%0A`;
-      message += `Items:%0A`;
-
-      cartData.forEach(item => {
-        message += `- ${item.name} x ${item.quantity}%0A`;
-      });
-
-      message += `Subtotal: ₹${subtotal}%0A`;
-      message += `Delivery: ₹${deliveryCharge}%0A`;
-      message += `Total: ₹${total}`;
-
-      window.location.href =
-        `https://wa.me/916002698296?text=${message}`;
-
-    } catch (error) {
-      alert(error.message);
-    }
-
-  });
-}
-// ================= LOGIN PAGE =================
-
-
-
-const loginBtn = document.getElementById("loginBtn");
-
-if (loginBtn) {
-  loginBtn.addEventListener("click", async () => {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const message = document.getElementById("authMessage");
-
-    if (!email || !password) {
-      message.innerText = "Please fill all fields.";
-      message.style.color = "red";
-      return;
-    }
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "index.html";
-    } catch (error) {
-      message.innerText = error.message;
-      message.style.color = "red";
-    }
-  });
-}
-// ================= AUTH SESSION CHECK =================
+// =====================================================
+// ================= AUTH SESSION ======================
+// =====================================================
 
 const loginLink = document.getElementById("loginLink");
 const userProfile = document.getElementById("userProfile");
@@ -353,9 +266,9 @@ if (loginLink && userProfile) {
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // Show avatar
+
       const firstLetter = user.email.charAt(0).toUpperCase();
-      const colors = ["#EA4335", "#FBBC05", "#34A853", "#4285F4", "#FF6D01"];
+      const colors = ["#d98a9b", "#c77d92", "#e7a5b4", "#b86b7d"];
       const colorIndex = user.email.length % colors.length;
 
       userAvatar.textContent = firstLetter;
@@ -364,7 +277,7 @@ if (loginLink && userProfile) {
       userProfile.style.display = "flex";
       loginLink.style.display = "none";
 
-      // Check if admin
+      // Admin Check
       const adminRef = doc(db, "admins", user.email);
       const adminSnap = await getDoc(adminRef);
 
@@ -380,18 +293,19 @@ if (loginLink && userProfile) {
     }
   });
 
-  // Toggle dropdown
-userAvatar.addEventListener("click", (e) => {
-  e.stopPropagation();
-  userDropdown.classList.toggle("show");
-});
+  // Dropdown Toggle
+  userAvatar.addEventListener("click", (e) => {
+    e.stopPropagation();
+    userDropdown.classList.toggle("show");
+  });
 
-// Close dropdown when clicking outside
-document.addEventListener("click", (e) => {
-  if (!userProfile.contains(e.target)) {
-    userDropdown.classList.remove("show");
-  }
-});
+  // Close dropdown outside click
+  document.addEventListener("click", (e) => {
+    if (!userProfile.contains(e.target)) {
+      userDropdown.classList.remove("show");
+    }
+  });
+
   // Logout
   if (logoutLink) {
     logoutLink.addEventListener("click", async () => {
@@ -399,11 +313,4 @@ document.addEventListener("click", (e) => {
       window.location.href = "index.html";
     });
   }
-
-  // Close dropdown when clicking outside
-  document.addEventListener("click", (e) => {
-    if (!userProfile.contains(e.target)) {
-      userDropdown.style.display = "none";
-    }
-  });
 }
