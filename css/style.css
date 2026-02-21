@@ -486,3 +486,28 @@ body {
   border-radius: 20px;
   animation: softFloat 6s ease-in-out infinite;
 }
+/* Luxury Add to Cart Button */
+
+.primary-btn {
+  background: linear-gradient(135deg, #d98a9b, #e7a5b4);
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 25px rgba(217, 138, 155, 0.25);
+}
+
+.primary-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(217, 138, 155, 0.35);
+}
+
+.primary-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 6px 15px rgba(217, 138, 155, 0.2);
+}
