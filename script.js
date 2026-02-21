@@ -580,18 +580,30 @@ renderTestimonials();
 
 
 
-async function doLogin() {
+async function registerUser() {
 
   const email = document.getElementById("aUser").value;
   const password = document.getElementById("aPass").value;
 
+  if (!email || !password) {
+    alert("Enter email and password");
+    return;
+  }
+
   try {
-    await window.auth.signInWithEmailAndPassword
-      ? window.auth.signInWithEmailAndPassword(email, password)
-      : await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js")
-          .then(mod => mod.signInWithEmailAndPassword(window.auth, email, password));
+
+    const userCred = await window.createUserWithEmailAndPassword(
+      window.auth,
+      email,
+      password
+    );
+
+    // Save user in Firestore
+    await window.db.collection
+      ? null
+      : null;
 
   } catch (error) {
-    alert("Login failed: " + error.message);
+    alert("Register error: " + error.message);
   }
 }
