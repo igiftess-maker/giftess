@@ -1,1 +1,248 @@
+/* =========================================
+   GIFTESS MAIN STYLESHEET
+   ========================================= */
 
+:root{
+--cream:#fdf6f0;
+--blush:#f2a7b0;
+--rose:#d4536a;
+--deep:#b03a54;
+--sand:#f5e6d3;
+--gold:#c9964a;
+--pink:#fce8ec;
+--dark:#3a2018;
+--mid:#6b4c3b;
+--light:#a08070;
+--sh:0 8px 32px rgba(180,80,100,.1);
+--shh:0 16px 48px rgba(180,80,100,.18);
+--r:16px;
+--rl:24px
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+font-family:'Jost',sans-serif;
+background:var(--cream);
+color:var(--dark);
+overflow-x:hidden
+}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--sand)}
+::-webkit-scrollbar-thumb{background:var(--blush);border-radius:10px}
+
+.view{display:none}
+.view.on{display:block}
+
+header{
+position:sticky;
+top:0;
+z-index:900;
+background:rgba(253,246,240,.96);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(242,167,176,.25);
+padding:0 5%;
+transition:box-shadow .3s
+}
+
+header.sc{box-shadow:0 4px 24px rgba(180,80,100,.12)}
+
+nav{
+display:flex;
+align-items:center;
+justify-content:space-between;
+height:70px
+}
+
+.logo{
+font-family:'Playfair Display',serif;
+font-size:1.9rem;
+font-weight:700;
+color:var(--rose);
+cursor:pointer;
+text-decoration:none;
+letter-spacing:-.5px
+}
+
+.logo b{color:var(--gold)}
+
+.nav-links{
+display:flex;
+gap:1.8rem;
+list-style:none
+}
+
+.nav-links a{
+font-size:.9rem;
+font-weight:500;
+color:var(--mid);
+text-decoration:none;
+position:relative;
+padding-bottom:3px;
+transition:color .3s;
+cursor:pointer
+}
+
+.nav-links a:after{
+content:'';
+position:absolute;
+bottom:0;
+left:0;
+width:0;
+height:2px;
+background:var(--rose);
+transition:width .3s
+}
+
+.nav-links a:hover{color:var(--rose)}
+.nav-links a:hover:after{width:100%}
+
+.nav-right{
+display:flex;
+align-items:center;
+gap:1rem
+}
+
+.icon-btn{
+background:none;
+border:none;
+font-size:1.1rem;
+color:var(--mid);
+cursor:pointer;
+position:relative;
+transition:color .3s;
+padding:4px
+}
+
+.icon-btn:hover{color:var(--rose)}
+
+.badge{
+position:absolute;
+top:-6px;
+right:-6px;
+background:var(--rose);
+color:#fff;
+font-size:.6rem;
+font-weight:700;
+width:16px;
+height:16px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.ham{
+display:none;
+flex-direction:column;
+gap:5px;
+cursor:pointer;
+background:none;
+border:none;
+padding:4px
+}
+
+.ham span{
+display:block;
+width:22px;
+height:2px;
+background:var(--rose);
+border-radius:2px
+}
+
+.mob-nav{
+display:none;
+position:fixed;
+inset:0;
+z-index:1200;
+background:rgba(253,246,240,.97);
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:1.8rem
+}
+
+.mob-nav.on{display:flex}
+
+.mob-nav a{
+font-family:'Playfair Display',serif;
+font-size:1.8rem;
+color:var(--dark);
+text-decoration:none;
+cursor:pointer
+}
+
+.mob-nav a:hover{color:var(--rose)}
+
+.mob-close{
+position:absolute;
+top:18px;
+right:20px;
+background:none;
+border:none;
+font-size:1.6rem;
+color:var(--mid);
+cursor:pointer
+}
+
+/* ========== BUTTONS ========== */
+
+.btn{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:13px 32px;
+border-radius:100px;
+font-size:.92rem;
+font-weight:600;
+border:none;
+cursor:pointer;
+transition:all .3s;
+font-family:'Jost',sans-serif;
+text-decoration:none
+}
+
+.btn-p{
+background:var(--rose);
+color:#fff;
+box-shadow:0 8px 24px rgba(212,83,106,.3)
+}
+
+.btn-p:hover{
+background:var(--deep);
+transform:translateY(-2px)
+}
+
+.btn-o{
+background:transparent;
+color:var(--rose);
+border:2px solid var(--rose)
+}
+
+.btn-o:hover{
+background:var(--pink);
+transform:translateY(-2px)
+}
+
+.btn-w{
+background:#25d366;
+color:#fff
+}
+
+.btn-w:hover{background:#1da855}
+
+.btn-sm{
+padding:9px 20px;
+font-size:.82rem
+}
+
+/* ==============================
+   (CONTINUED — FULL CSS)
+   ============================== */
+
+/* ⚠️ IMPORTANT:
+   Your CSS is extremely large (~2000+ lines).
+   To prevent response truncation and ensure nothing breaks,
+   I will send the remaining part immediately in the next message.
+*/
