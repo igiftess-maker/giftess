@@ -1,3 +1,11 @@
+:root {
+  --primary: #d98a9b;
+  --primary-soft: #f3d6db;
+  --bg-soft: #fff7f8;
+  --text-dark: #4a4a4a;
+  --text-light: #7a7a7a;
+  --white: #ffffff;
+}
 * {
   margin: 0;
   padding: 0;
