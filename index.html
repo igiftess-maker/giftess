@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giftess – Gift Hampers for Every Occasion</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<nav class="mob-nav" id="mobNav">
+  <button class="mob-close" onclick="closeMobNav()"><i class="fas fa-times"></i></button>
+  <a onclick="goHome();closeMobNav()">Home</a>
+  <a onclick="goTo('shopSec');closeMobNav()">Shop</a>
+  <a onclick="openBuilder();closeMobNav()">Custom Hampers</a>
+  <a onclick="goTo('aboutSec');closeMobNav()">About Us</a>
+  <a onclick="goTo('contactSec');closeMobNav()">Contact</a>
+</nav>
+
+<!-- HEADER -->
+<header id="hdr">
+  <nav>
+    <span class="logo" onclick="goHome()">Gifte<b>ss</b></span>
+    <ul class="nav-links">
+      <li><a onclick="goHome()">Home</a></li>
+      <li><a onclick="goTo('shopSec')">Shop</a></li>
+      <li><a onclick="openBuilder()">Custom Hampers</a></li>
+      <li><a onclick="goTo('aboutSec')">About Us</a></li>
+      <li><a onclick="goTo('contactSec')">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" onclick="gotoAdmin()" title="Admin Panel"><i class="fas fa-user-shield"></i></button>
+      <button class="icon-btn" onclick="openCart()" style="position:relative">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="badge" id="cartBadge">0</span>
+      </button>
+      <button class="ham" onclick="openMobNav()"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<!-- WA FAB -->
+<a href="https://wa.me/916002698296" target="_blank" class="wa-fab" id="waFab"><i class="fab fa-whatsapp"></i></a>
+
+<!-- CART -->
+<div class="overlay" id="cOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cSidebar">
+  <div class="cart-head">
+    <h2>Your Cart 🛍️</h2>
+    <button class="cart-close" onclick="closeCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cItems"></div>
+  <div id="cFoot" style="display:none">
+    <div class="cart-foot">
+      <div class="cart-total-row"><span>Total</span><span id="cTotal">₹0</span></div>
+      <button class="btn btn-w" style="width:100%;justify-content:center" onclick="checkoutWA()">
+        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-wrap" id="prodModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="pmName">Product</h2>
+      <button class="modal-x" onclick="closePM()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="pd-grid">
+        <div class="pd-gallery" id="pmGallery"></div>
+        <div class="pd-info">
+          <div class="prod-price" style="margin-bottom:1rem">
+            <span class="p-orig" id="pmOrig"></span>
+            <span class="p-sale" id="pmSale"></span>
+          </div>
+          <p id="pmDesc" style="font-size:.88rem;color:var(--mid);line-height:1.65;margin-bottom:.9rem"></p>
+          <strong style="font-size:.82rem">What's Inside:</strong>
+          <ul class="inc-list" id="pmIncludes"></ul>
+          <div style="display:flex;gap:.7rem;margin-top:1.4rem;flex-wrap:wrap">
+            <button class="btn btn-p btn-sm" onclick="addFromPM()"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            <button class="btn btn-w btn-sm" onclick="waPM()"><i class="fab fa-whatsapp"></i> Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BUILDER MODAL -->
+<div class="modal-wrap" id="builderModal">
+  <div class="modal" style="width:min(740px,96vw)">
+    <div class="modal-head">
+      <h2>🎁 Create Your Own Hamper</h2>
+      <button class="modal-x" onclick="closeBuilder()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="builder-step on" id="bS1">
+        <p class="bs-title">Step 1 — Choose Your Box</p>
+        <div class="box-opts">
+          <div class="box-opt" onclick="pickBox(this,'Small Box',399)"><div class="bo-icon">📦</div><div class="bo-name">Small Box</div><div class="bo-price">+₹399</div></div>
+          <div class="box-opt" onclick="pickBox(this,'Medium Box',599)"><div class="bo-icon">🎁</div><div class="bo-name">Medium Box</div><div class="bo-price">+₹599</div></div>
+          <div class="box-opt" onclick="pickBox(this,'Large Box',799)"><div class="bo-icon">🛍️</div><div class="bo-name">Large Box</div><div class="bo-price">+₹799</div></div>
+          <div class="box-opt" onclick="pickBox(this,'Premium Trunk',1199)"><div class="bo-icon">🧳</div><div class="bo-name">Premium Trunk</div><div class="bo-price">+₹1199</div></div>
+        </div>
+      </div>
+      <div class="builder-step" id="bS2">
+        <p class="bs-title">Step 2 — Add Products</p>
+        <div class="addon-grid" id="addonGrid"></div>
+      </div>
+      <div class="builder-step" id="bS3">
+        <p class="bs-title">Step 3 — Greeting Message</p>
+        <textarea class="msg-box" id="greetMsg" placeholder="Write your message… e.g. Happy Birthday! 🎉"></textarea>
+      </div>
+      <div class="builder-step" id="bS4">
+        <p class="bs-title">Step 4 — Summary ✨</p>
+        <div class="sum-box" id="bSum"></div>
+      </div>
+      <div class="b-total" id="bTotalEl">Total: ₹0</div>
+      <div class="b-nav">
+        <button class="btn btn-o btn-sm" id="bBack" style="display:none" onclick="bPrev()">← Back</button>
+        <div class="prog-dots" id="bDots"></div>
+        <button class="btn btn-p btn-sm" id="bNext" onclick="bNextStep()">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toastEl"></div>
+
+<!-- MOBILE BAR -->
+<div class="mob-bar" id="mobBar">
+  <button class="btn btn-o btn-sm" style="flex:1" onclick="openCart()"><i class="fas fa-shopping-bag"></i> Cart (<span id="mobCount">0</span>)</button>
+  <button class="btn btn-w btn-sm" style="flex:1" onclick="checkoutWA()"><i class="fab fa-whatsapp"></i> Order</button>
+</div>
+
+<!-- ============ HOME ============ -->
+<div class="view on" id="homeView">
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag"><i class="fas fa-star" style="font-size:.65rem"></i> Premium Gift Hampers India</div>
+    <h1>Gift Hampers for<br><em>Every Occasion</em></h1>
+    <p class="hero-sub">Crafted with Love &amp; Care — delivered to your door</p>
+    <div class="hero-btns">
+      <button class="btn btn-p" onclick="goTo('shopSec')"><i class="fas fa-gift"></i> Shop Now</button>
+      <button class="btn btn-o" onclick="openBuilder()">Customize Yours</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-box">
+      <div class="hero-box-inner">🎁🎀<br>🍫🕯️🌸</div>
+      <div class="float-tag t1"><i class="fas fa-star" style="color:var(--gold)"></i> 5000+ Orders <span>Across India</span></div>
+      <div class="float-tag t2">🎉 Custom Hampers <span>Build yours!</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-label">Browse by</span>
+    <h2 class="sec-title">Shop by <em>Occasion</em></h2>
+    <div class="sec-bar"></div>
+  </div>
+  <div class="occ-grid">
+    <div class="occ-card" onclick="filterCat('Birthday')"><div class="occ-img">🎂</div><h3>Birthday Gifts</h3></div>
+    <div class="occ-card" onclick="filterCat('Anniversary')"><div class="occ-img">💍</div><h3>Anniversary Gifts</h3></div>
+    <div class="occ-card" onclick="filterCat('Her')"><div class="occ-img">💐</div><h3>Gifts for Her</h3></div>
+    <div class="occ-card" onclick="filterCat('Him')"><div class="occ-img">🎯</div><h3>Gifts for Him</h3></div>
+    <div class="occ-card" onclick="filterCat('Valentine')"><div class="occ-img">💝</div><h3>Valentine Gifts</h3></div>
+    <div class="occ-card" onclick="filterCat('Unique')"><div class="occ-img">✨</div><h3>Unique Gifts</h3></div>
+  </div>
+</section>
+
+<div class="custom-box">
+  <div class="custom-left">
+    <span class="sec-label">Personalize</span>
+    <h2 class="sec-title" style="text-align:left;margin-bottom:.5rem">Create Your Own <em>Hamper</em></h2>
+    <p style="color:var(--mid);font-size:1rem;margin-bottom:1.4rem">Design a hamper that's uniquely theirs.</p>
+    <div class="custom-steps">
+      <div class="cstep"><div class="cnum">1</div><p>Choose your box size</p></div>
+      <div class="cstep"><div class="cnum">2</div><p>Select products — live price update</p></div>
+      <div class="cstep"><div class="cnum">3</div><p>Add a personal greeting card</p></div>
+      <div class="cstep"><div class="cnum">4</div><p>Order via WhatsApp</p></div>
+    </div>
+    <button class="btn btn-p" style="margin-top:1.5rem" onclick="openBuilder()"><i class="fas fa-magic"></i> Make Your Own Hamper</button>
+  </div>
+  <div class="custom-img-box" id="customImgBox">🧺🎁💝🍫🕯️🌹</div>
+</div>
+
+<section class="sec" id="shopSec">
+  <div class="sec-head">
+    <span class="sec-label">Most Loved</span>
+    <h2 class="sec-title" id="shopTitle">Best <em>Sellers</em></h2>
+    <div class="sec-bar"></div>
+  </div>
+  <div class="prod-grid" id="shopGrid"></div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="sec-head">
+    <span class="sec-label">Find Your Budget</span>
+    <h2 class="sec-title">Shop by <em>Price</em></h2>
+    <div class="sec-bar"></div>
+  </div>
+  <div class="price-btns">
+    <button class="pbtn" onclick="filterPrice(0,1099,this)">Under ₹1099</button>
+    <button class="pbtn" onclick="filterPrice(0,1499,this)">Under ₹1499</button>
+    <button class="pbtn" onclick="filterPrice(0,2099,this)">Under ₹2099</button>
+    <button class="pbtn" onclick="filterPrice(2099,99999,this)">Above ₹2099</button>
+    <button class="pbtn" onclick="filterPrice(0,99999,this)">Show All</button>
+  </div>
+  <div class="prod-grid" id="filtGrid" style="margin-top:2.8rem"></div>
+</section>
+
+<section class="sec sec-alt2">
+  <div class="sec-head">
+    <span class="sec-label">Happy Customers</span>
+    <h2 class="sec-title">What They <em>Say</em></h2>
+    <div class="sec-bar"></div>
+  </div>
+  <div class="test-track" id="testTrack"></div>
+</section>
+
+<section class="sec sec-alt" id="aboutSec">
+  <div style="max-width:680px;margin:0 auto;text-align:center">
+    <span class="sec-label">Our Story</span>
+    <h2 class="sec-title" style="margin-bottom:1.3rem">About <em>Giftess</em></h2>
+    <p style="color:var(--mid);font-size:1rem;line-height:1.8">Giftess was born from a simple belief — every gift should feel like a warm hug. We handcraft premium hampers with curated products, beautiful packaging, and a whole lot of love. Based in India, delivering smiles since 2022.</p>
+    <div style="display:flex;gap:2rem;justify-content:center;margin-top:2.5rem;flex-wrap:wrap">
+      <div><div style="font-size:2rem;font-weight:700;color:var(--rose);font-family:'Playfair Display',serif">5000+</div><div style="font-size:.82rem;color:var(--light)">Happy Customers</div></div>
+      <div><div style="font-size:2rem;font-weight:700;color:var(--rose);font-family:'Playfair Display',serif">50+</div><div style="font-size:.82rem;color:var(--light)">Unique Hampers</div></div>
+      <div><div style="font-size:2rem;font-weight:700;color:var(--rose);font-family:'Playfair Display',serif">4.9★</div><div style="font-size:.82rem;color:var(--light)">Avg Rating</div></div>
+      <div><div style="font-size:2rem;font-weight:700;color:var(--rose);font-family:'Playfair Display',serif">100+</div><div style="font-size:.82rem;color:var(--light)">Cities</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contactSec">
+  <div class="sec-head">
+    <span class="sec-label">Get in Touch</span>
+    <h2 class="sec-title">Contact <em>Us</em></h2>
+    <div class="sec-bar"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.8rem;max-width:780px;margin:0 auto;text-align:center">
+    <div style="background:#fff;border-radius:var(--r);padding:1.8rem;box-shadow:var(--sh)"><div style="font-size:2.3rem;margin-bottom:.8rem">📞</div><h3 style="font-weight:700;margin-bottom:.4rem;font-size:.95rem">WhatsApp</h3><p style="color:var(--mid);font-size:.88rem">+91 6002 698 296</p></div>
+    <div style="background:#fff;border-radius:var(--r);padding:1.8rem;box-shadow:var(--sh)"><div style="font-size:2.3rem;margin-bottom:.8rem">📧</div><h3 style="font-weight:700;margin-bottom:.4rem;font-size:.95rem">Email</h3><p style="color:var(--mid);font-size:.88rem">hello@giftess.in</p></div>
+    <div style="background:#fff;border-radius:var(--r);padding:1.8rem;box-shadow:var(--sh)"><div style="font-size:2.3rem;margin-bottom:.8rem">📍</div><h3 style="font-weight:700;margin-bottom:.4rem;font-size:.95rem">Location</h3><p style="color:var(--mid);font-size:.88rem">India-wide Delivery</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <span class="logo" style="color:var(--blush);display:block;margin-bottom:.5rem">Gifte<b style="color:var(--gold)">ss</b></span>
+      <p class="foot-brand">Premium gift hampers crafted with love &amp; care.</p>
+      <div class="foot-social">
+        <a class="soc-btn" href="#"><i class="fab fa-instagram"></i></a>
+        <a class="soc-btn" href="#"><i class="fab fa-facebook"></i></a>
+        <a class="soc-btn" href="https://wa.me/916002698296" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a class="soc-btn" href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="foot-col"><h4>Shop</h4><ul>
+      <li><a onclick="filterCat('Birthday')">Birthday Gifts</a></li>
+      <li><a onclick="filterCat('Anniversary')">Anniversary Gifts</a></li>
+      <li><a onclick="filterCat('Her')">Gifts for Her</a></li>
+      <li><a onclick="filterCat('Him')">Gifts for Him</a></li>
+      <li><a onclick="filterCat('Valentine')">Valentine Gifts</a></li>
+      <li><a onclick="openBuilder()">Custom Hampers</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Links</h4><ul>
+      <li><a onclick="goHome()">Home</a></li>
+      <li><a onclick="goTo('aboutSec')">About Us</a></li>
+      <li><a onclick="goTo('contactSec')">Contact</a></li>
+      <li><a onclick="gotoAdmin()">Admin Panel</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Contact</h4>
+      <div class="foot-contact"><i class="fab fa-whatsapp"></i> +91 6002 698 296</div>
+      <div class="foot-contact"><i class="fas fa-envelope"></i> hello@giftess.in</div>
+      <div class="foot-contact"><i class="fas fa-map-marker-alt"></i> India-wide</div>
+    </div>
+  </div>
+  <div class="foot-bottom">© 2025 Giftess. Made with ❤️ in India.</div>
+</footer>
+</div><!-- /homeView -->
+
+<!-- ============ LOGIN ============ -->
+<div class="view" id="loginView">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div style="font-size:2.8rem;text-align:center;margin-bottom:.5rem">🔐</div>
+      <h2>Admin Login</h2>
+      <p class="sub">Access the Giftess admin panel</p>
+      <div class="field"><label>Username</label><input class="inp" id="aUser" type="text" placeholder="admin"></div>
+      <div class="field"><label>Password</label><input class="inp" id="aPass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-p" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()">Login</button>
+      <button class="btn btn-o" style="width:100%;justify-content:center;margin-top:.7rem" onclick="goHome()">← Back to Site</button>
+      <p style="text-align:center;margin-top:1.3rem;font-size:.75rem;color:var(--light)">Demo: admin / giftess123</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADMIN ============ -->
+<div class="view" id="adminView">
+  <div class="admin-layout">
+    <div class="admin-sidebar">
+      <div class="admin-logo">Gifte<b style="color:var(--gold)">ss</b> Admin</div>
+      <ul class="admin-nav">
+        <li><a class="on" onclick="showTab('tDash',this)"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a onclick="showTab('tProds',this)"><i class="fas fa-gift"></i> Products</a></li>
+        <li><a onclick="openAddProd()"><i class="fas fa-plus-circle"></i> Add Product</a></li>
+        <li><a onclick="showTab('tCats',this)"><i class="fas fa-tags"></i> Categories</a></li>
+        <li><a onclick="showTab('tOrders',this)"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+        <li><a onclick="showTab('tSettings',this)"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a onclick="goHome()"><i class="fas fa-home"></i> View Site</a></li>
+        <li><a onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+    <div class="admin-main">
+
+      <div id="tDash">
+        <div class="a-top"><h1>Dashboard</h1><span style="font-size:.85rem;color:var(--light)">Welcome, Admin 👋</span></div>
+        <div class="stat-cards">
+          <div class="stat-card"><div class="stat-ico">📦</div><div class="stat-n" id="dProds">0</div><div class="stat-l">Products</div></div>
+          <div class="stat-card"><div class="stat-ico">🛒</div><div class="stat-n">12</div><div class="stat-l">Orders</div></div>
+          <div class="stat-card"><div class="stat-ico">⭐</div><div class="stat-n" id="dBS">0</div><div class="stat-l">Best Sellers</div></div>
+          <div class="stat-card"><div class="stat-ico">💰</div><div class="stat-n">₹24,850</div><div class="stat-l">This Month</div></div>
+        </div>
+        <div class="a-card">
+          <div class="a-card-head"><h2>Recent Orders</h2></div>
+          <table class="tbl"><thead><tr><th>#</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>#001</td><td>Priya S.</td><td>Crunch Munch</td><td>₹1,299</td><td><span class="tag tag-g">Confirmed</span></td></tr>
+            <tr><td>#002</td><td>Arjun M.</td><td>BFF Hamper</td><td>₹1,599</td><td><span class="tag tag-g">Delivered</span></td></tr>
+            <tr><td>#003</td><td>Sneha K.</td><td>You Are Special</td><td>₹2,099</td><td><span class="tag tag-r">Pending</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <div id="tProds" style="display:none">
+        <div class="a-top"><h1>Products</h1><button class="add-btn" onclick="openAddProd()"><i class="fas fa-plus"></i> Add New</button></div>
+        <div class="a-card">
+          <table class="tbl"><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Status</th><th>Best Seller</th><th>Actions</th></tr></thead>
+          <tbody id="prodTbody"></tbody></table>
+        </div>
+      </div>
+
+      <div id="tAdd" style="display:none">
+        <div class="a-top"><h1 id="addTitle">Add New Product</h1></div>
+        <div class="a-card">
+          <div class="form-grid">
+            <div class="form-grp"><label class="form-lbl">Product Name *</label><input class="inp" id="fName" placeholder="e.g. Crunch Munch"></div>
+            <div class="form-grp"><label class="form-lbl">Category</label>
+              <select class="sel-inp" id="fCat"><option>Birthday</option><option>Anniversary</option><option>Her</option><option>Him</option><option>Valentine</option><option>Unique</option></select>
+            </div>
+            <div class="form-grp"><label class="form-lbl">Original Price (₹)</label><input class="inp" id="fOrig" type="number" placeholder="1799"></div>
+            <div class="form-grp"><label class="form-lbl">Sale Price (₹)</label><input class="inp" id="fSale" type="number" placeholder="1499"></div>
+            <div class="form-grp"><label class="form-lbl">Description</label><input class="inp" id="fDesc" placeholder="Short description"></div>
+            <div class="form-grp"><label class="form-lbl">Emoji Fallback</label><input class="inp" id="fEmoji" value="🎁" placeholder="🎁"></div>
+            <div class="form-grp full">
+              <label class="form-lbl">Product Image (click to upload — JPG/PNG/WEBP max 5MB)</label>
+              <div class="img-upload" id="imgBox" onclick="triggerUpload(event)">
+                <input type="file" id="imgFile" accept="image/*" style="display:none" onchange="onImgChange(event)">
+                <div class="up-ph">
+                  <div class="up-icon">🖼️</div>
+                  <div class="up-txt">Click to upload product image</div>
+                  <div class="up-hint">JPG, PNG, WEBP · max 5MB</div>
+                </div>
+                <img class="up-preview" id="imgPreview" alt="">
+                <button type="button" class="up-rm" id="imgRm" onclick="removeImg(event)"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+            <div class="form-grp full"><label class="form-lbl">What's Inside (comma separated)</label><input class="inp" id="fIncludes" placeholder="Chocolates, Scented Candle, Face Mask..."></div>
+            <div class="form-grp">
+              <label class="form-lbl">Best Seller</label>
+              <div class="tog-wrap"><label class="tog"><input type="checkbox" id="fBS"><span class="tog-sl"></span></label><span style="font-size:.82rem;color:var(--mid)">Mark as Best Seller</span></div>
+            </div>
+            <div class="form-grp">
+              <label class="form-lbl">Active (visible on site)</label>
+              <div class="tog-wrap"><label class="tog"><input type="checkbox" id="fActive" checked><span class="tog-sl"></span></label><span style="font-size:.82rem;color:var(--mid)">Show on website</span></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;margin-top:1.5rem">
+            <button class="add-btn" onclick="saveProd()"><i class="fas fa-save"></i> Save Product</button>
+            <button class="btn btn-o btn-sm" onclick="resetForm()">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tCats" style="display:none">
+        <div class="a-top"><h1>Categories</h1></div>
+        <div class="a-card">
+          <table class="tbl"><thead><tr><th>Icon</th><th>Category</th><th>Products</th><th>Status</th></tr></thead>
+          <tbody id="catTbody"></tbody></table>
+        </div>
+      </div>
+
+      <div id="tOrders" style="display:none">
+        <div class="a-top"><h1>Orders</h1></div>
+        <div class="a-card" style="text-align:center;padding:3rem;color:var(--light)">Orders come in via WhatsApp. Connect WhatsApp Business API for live management.</div>
+      </div>
+
+      <div id="tSettings" style="display:none">
+        <div class="a-top"><h1>Settings</h1></div>
+        <div class="a-card">
+          <div class="form-grid">
+            <div class="form-grp"><label class="form-lbl">Store Name</label><input class="inp" value="Giftess"></div>
+            <div class="form-grp"><label class="form-lbl">WhatsApp Number</label><input class="inp" value="+916002698296"></div>
+            <div class="form-grp"><label class="form-lbl">Email</label><input class="inp" value="hello@giftess.in"></div>
+            <div class="form-grp"><label class="form-lbl">Hero Headline</label><input class="inp" value="Gift Hampers for Every Occasion"></div>
+          </div>
+          <button class="add-btn" style="margin-top:1.4rem" onclick="toast('Settings saved! ✅')"><i class="fas fa-save"></i> Save Settings</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
