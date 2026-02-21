@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <title>Giftess</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -18,10 +15,8 @@
   <a href="index.html" class="logo">Giftess</a>
 
   <div class="nav-icons">
-
     <div id="userProfile" class="user-profile" style="display:none;">
       <div id="userAvatar" class="user-avatar"></div>
-
       <div id="userDropdown" class="user-dropdown">
         <a href="orders.html">My Orders</a>
         <a id="adminLink" href="admin.html" style="display:none;">Admin Panel</a>
@@ -31,19 +26,16 @@
 
     <a id="loginLink" href="login.html">Login</a>
     <a id="cartLink" href="#">Cart 🛒</a>
-
   </div>
 </header>
 
-<!-- ================= HERO SECTION ================= -->
+<!-- ================= HERO ================= -->
 
 <section class="hero">
   <div class="hero-container">
-
     <div class="hero-text">
       <h1>Premium Customised Gift Hampers</h1>
       <p>Crafted with love. Delivered with elegance.</p>
-
       <div class="hero-buttons">
         <button class="primary-btn">Shop Now</button>
         <button class="secondary-btn">Create Your Own</button>
@@ -51,9 +43,8 @@
     </div>
 
     <div class="hero-image">
-      <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=900&auto=format&fit=crop" alt="Luxury Gift Hamper">
+      <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=900&auto=format&fit=crop">
     </div>
-
   </div>
 </section>
 
@@ -64,6 +55,40 @@
   <div id="categoriesContainer" class="categories-grid"></div>
 </section>
 
+<!-- ================= CREATE YOUR OWN ================= -->
+
+<section class="custom-section">
+  <div class="custom-container">
+    <div class="custom-text">
+      <h2>Create Your Own Hamper</h2>
+      <p>Design a hamper that's uniquely theirs.</p>
+      <ul>
+        <li>1. Choose your box size</li>
+        <li>2. Select products — live price update</li>
+        <li>3. Add a personal greeting card</li>
+        <li>4. Checkout securely</li>
+      </ul>
+      <button class="primary-btn">Make Your Own Hamper</button>
+    </div>
+    <div class="custom-image">
+      <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?q=80&w=800&auto=format&fit=crop">
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHOP BY PRICE ================= -->
+
+<section class="price-section">
+  <h2 class="section-title">Find Your Budget</h2>
+  <div class="price-filters">
+    <button class="price-btn" data-price="1099">Under ₹1099</button>
+    <button class="price-btn" data-price="1499">Under ₹1499</button>
+    <button class="price-btn" data-price="2099">Under ₹2099</button>
+    <button class="price-btn" data-price="above">Above ₹2099</button>
+    <button class="price-btn" data-price="all">Show All</button>
+  </div>
+</section>
+
 <!-- ================= BEST SELLERS ================= -->
 
 <section class="products">
@@ -71,30 +96,68 @@
   <div id="productContainer" class="product-grid"></div>
 </section>
 
+<!-- ================= TESTIMONIALS ================= -->
+
+<section class="testimonial-section">
+  <h2 class="section-title">Happy Customers</h2>
+  <div class="testimonial-grid">
+
+    <div class="testimonial-card">
+      <p>★★★★★</p>
+      <p>"Absolutely loved the hamper! Packaging was beautiful."</p>
+      <h4>Priya Sharma</h4>
+      <span>Mumbai</span>
+    </div>
+
+    <div class="testimonial-card">
+      <p>★★★★★</p>
+      <p>"Ordered for my girlfriend's birthday. She was thrilled!"</p>
+      <h4>Arjun Mehta</h4>
+      <span>Delhi</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= STATS SECTION ================= -->
+
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h2>5000+</h2>
+      <p>Happy Customers</p>
+    </div>
+    <div class="stat-item">
+      <h2>50+</h2>
+      <p>Unique Hampers</p>
+    </div>
+    <div class="stat-item">
+      <h2>4.9★</h2>
+      <p>Average Rating</p>
+    </div>
+    <div class="stat-item">
+      <h2>100+</h2>
+      <p>Cities Served</p>
+    </div>
+  </div>
+</section>
+
 <!-- ================= CART DRAWER ================= -->
 
 <div id="cartDrawer" class="cart-drawer">
-
   <div class="cart-header">
     <h3>Your Cart</h3>
     <span id="closeCart">✖</span>
   </div>
-
   <div id="cartItems" class="cart-items"></div>
-
-  <!-- Addons -->
   <div id="addonSection">
     <h4 style="padding:15px 15px 0;">Add Something Extra 💝</h4>
     <div id="addonProducts" class="cart-items"></div>
   </div>
-
   <div class="cart-footer">
     <div id="cartTotal">Total: ₹0</div>
-    <button id="goCheckoutBtn" class="primary-btn">
-      Go to Checkout
-    </button>
+    <button id="goCheckoutBtn" class="primary-btn">Go to Checkout</button>
   </div>
-
 </div>
 
 <div id="cartOverlay" class="cart-overlay"></div>
@@ -102,13 +165,11 @@
 <!-- ================= FOOTER ================= -->
 
 <footer class="footer">
-  <div class="footer-container">
-    <h3>Giftess</h3>
-    <p>Premium gift hampers crafted with love & care.</p>
-    <p>India-wide Delivery</p>
-    <p>📞 +91 6002 698 296</p>
-    <p>© 2026 Giftess. Made with ❤️ in India.</p>
-  </div>
+  <h3>Giftess</h3>
+  <p>Premium gift hampers crafted with love & care.</p>
+  <p>📞 +91 6002 698 296</p>
+  <p>India-wide Delivery</p>
+  <p>© 2026 Giftess. Made with ❤️ in India.</p>
 </footer>
 
 <script type="module" src="js/app.js"></script>
